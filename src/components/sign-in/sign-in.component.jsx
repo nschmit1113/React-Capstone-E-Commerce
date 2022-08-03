@@ -5,6 +5,7 @@ import Button from "../button/button.component";
 import './sign-in.styles.scss'
 
 
+
 const defaultFormFields = {
     email: '',
     password: '',
@@ -13,6 +14,7 @@ const defaultFormFields = {
 const SignIn = () => {
     const[formFields, setFormFields] = useState(defaultFormFields);
     const { email, password } = formFields;
+
 
     const resetFormFields = () => {
         setFormFields(defaultFormFields);
@@ -23,7 +25,8 @@ const SignIn = () => {
 
         try{
             
-            const response  = await signInWithGoogleEmailAndPassword(email, password);
+            const { user } = await signInWithGoogleEmailAndPassword(email, password);
+            // setCurrentUser(user);
             
             resetFormFields();
             
@@ -48,9 +51,10 @@ const SignIn = () => {
         setFormFields({...formFields, [name]: value})
     };
 
-    const logGoogleUser = async () => {
-        const { user } = await signInWithGooglePopup();
-        await createUserDocumentFromAuth(user);
+    const signInWithGoogle = async () => {
+         await signInWithGooglePopup();
+        // setCurrentUser(user);
+         
     };
 
     return (
@@ -78,7 +82,7 @@ const SignIn = () => {
                 />
                 <div className='buttons-container'>
                     <Button type='submit'>Sign In</Button>
-                    <Button type='button' buttonType='google' onClick={logGoogleUser}>Google Sign In</Button>
+                    <Button type='button' buttonType='google' onClick={signInWithGoogle}>Google Sign In</Button>
                 </div>
                 
             </form>
